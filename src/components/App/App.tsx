@@ -6,15 +6,15 @@ export const App = ()  => {
     <div className="App">
       <header className="App-header">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Gift App
         </p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="https://myefrei.fr"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          MyEfrei
         </a>
       </header>
     </div>
