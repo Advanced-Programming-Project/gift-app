@@ -1,0 +1,12 @@
+# EditorConfig helps developers define and maintain consistent
+# coding styles between different editors and IDEs
+
+# top-most EditorConfig file
+root = true
+
+# Indentation with 2 spaces
+[*.*]
+indent_style = space
+indent_size = 2
+
+# End of file

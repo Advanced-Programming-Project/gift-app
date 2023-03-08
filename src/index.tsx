@@ -1,7 +1,7 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import './index.css';
-import {App} from './components';
+import {Login} from './components';
 
 const root = createRoot(
     document.getElementById('root') as HTMLElement
@@ -9,6 +9,6 @@ const root = createRoot(
 
 root.render(
     <StrictMode>
-        <App/>
+        <Login/>
     </StrictMode>
 );
