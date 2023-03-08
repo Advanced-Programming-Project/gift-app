@@ -1,7 +1,8 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import './index.css';
-import {Login} from './components';
+import {App} from './components';
+import {ChakraProvider} from "@chakra-ui/react";
 
 const root = createRoot(
     document.getElementById('root') as HTMLElement
@@ -9,6 +10,8 @@ const root = createRoot(
 
 root.render(
     <StrictMode>
-        <Login/>
+      <ChakraProvider>
+        <App/>
+      </ChakraProvider>
     </StrictMode>
 );
