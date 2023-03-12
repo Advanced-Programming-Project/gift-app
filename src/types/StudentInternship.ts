@@ -1,5 +1,5 @@
 export type StudentInternship = {
-  id: number,
+  id?: number,
   specifications: boolean,
   visitForm: boolean,
   evaluationForm: boolean,
@@ -18,6 +18,3 @@ export type StudentInternship = {
   companyAddress: string,
   comment: string,
 };
-
-
-

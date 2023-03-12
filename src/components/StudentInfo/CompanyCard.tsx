@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Card, CardBody, CardHeader, Heading, Text, Divider, Stack } from "@chakra-ui/react";
+import { Student } from "../../types/Student";
 
-export const CompanyCard = () => {
+export const CompanyCard = (props: { student: Student | null }) => {
   return (
     <Box w={'700px'} h={'430px'}>
       <Card>
@@ -12,14 +13,14 @@ export const CompanyCard = () => {
         </CardHeader>
         <CardBody>
           <Stack spacing={3.5} direction={'column'}>
-            <Heading as={'h3'} size={'lg'} color={'blue.400'}>a</Heading>
+            <Heading as={'h3'} size={'lg'} color={'blue.400'}></Heading>
             <Divider/>
             <Box
               display={'flex'}
               flexDirection={'row'}
             >
               <Text fontSize='md' as={'b'} width={'50%'}>Name: </Text>
-              <Text fontSize={'md'}>1</Text>
+              <Text fontSize={'md'}>{props.student?.studentInternship[0].companyName}</Text>
             </Box>
             <Divider/>
             <Box
@@ -28,7 +29,7 @@ export const CompanyCard = () => {
             >
               <Text fontSize='md' as={'b'} width={'50%'}>Address: </Text>
               <Box bg={'whitesmoke'} maxHeight={'50px'} wordBreak={'break-word'}>
-                <Text fontSize={'md'} >Lorem industry since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ty</Text>
+                <Text fontSize={'md'}>{props.student?.studentInternship[0].companyAddress}</Text>
               </Box>
             </Box>
             <Divider/>
@@ -37,7 +38,7 @@ export const CompanyCard = () => {
               flexDirection={'row'}
             >
               <Text fontSize='md' as={'b'} width={'50%'}>Tutor: </Text>
-              <Text fontSize={'md'}>Test</Text>
+              <Text fontSize={'md'}>{props.student?.studentInternship[0].companyTutorName}</Text>
             </Box>
             <Divider/>
             <Box
@@ -45,7 +46,7 @@ export const CompanyCard = () => {
               flexDirection={'row'}
             >
               <Text fontSize='md' as={'b'} width={'50%'}>Start Date: </Text>
-              <Text fontSize={'md'}>M2</Text>
+              <Text fontSize={'md'}>{props.student?.studentInternship[0].startingDate}</Text>
             </Box>
             <Divider/>
             <Box
@@ -53,7 +54,7 @@ export const CompanyCard = () => {
               flexDirection={'row'}
             >
               <Text fontSize='md' as={'b'} width={'50%'}>End Date: </Text>
-              <Text fontSize={'md'}>M2</Text>
+              <Text fontSize={'md'}>{props.student?.studentInternship[0].endingDate}</Text>
             </Box>
           </Stack>
         </CardBody>

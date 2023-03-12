@@ -10,7 +10,6 @@ import {
   Button, IconButton,
 } from "@chakra-ui/react";
 import {CheckCircleIcon, SearchIcon} from '@chakra-ui/icons';
-import {data as initialData} from "../../examples/data";
 import {TypeEditInfo} from "@inovua/reactdatagrid-community/types";
 import {Student} from "../../types/Student";
 import {useNavigate} from "react-router-dom";
@@ -37,10 +36,10 @@ export const InternsTable = () => {
   };
 
   const showStudentButtonRender = {
-    render: (event: TypeEditInfo) => {
+    render: (event: any) => {
       return (
         <Center>
-          <IconButton size={'xs'} colorScheme={'blue'} onClick={() => showStudentInfo(event.value)}
+          <IconButton size={'xs'} colorScheme={'blue'} onClick={() => showStudentInfo(event.data.id)}
                       icon={<SearchIcon/>} aria-label={"Show student infos"}/>
         </Center>
       );
@@ -196,12 +195,24 @@ export const InternsTable = () => {
 
   const gridStyle = {maxWidth: 1400, minHeight: 500};
 
-  const [dataSource, setDataSource] = useState(initialData)
+  const [dataSource, setDataSource] = useState([] as Student[])
 
   const onEditComplete = useCallback(({value, columnId, rowIndex}: TypeEditInfo) => {
-    const data = [...dataSource];
+    const data = [...dataSource] as Student[];
 
-    data[rowIndex][columnId] = value;
+    if(Object.keys(data[0].studentInternship[0]).includes(columnId)) {
+      const fieldName = columnId as keyof StudentInternship;
+
+      if (typeof ((data[rowIndex] as Student).studentInternship[0] as StudentInternship)[fieldName] == "boolean"){
+        value = value === 'false' ? false : !!value;
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      ((data[rowIndex] as Student).studentInternship[0] as StudentInternship)[fieldName] = value
+    } else {
+      data[rowIndex][columnId] = value;
+    }
+
     setDataSource(data);
   }, [dataSource])
 
@@ -231,12 +242,38 @@ export const InternsTable = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify(initialData)
+        body: JSON.stringify(dataSource)
       });
       const students = await responsePost.json();
       console.dir(students);
     }
   }
+
+  const handleAddRow = () => {
+    setDataSource(prevData => [
+      ...prevData,
+      { firstname: '', lastname: '', email:'', promotion:'', studentInternship: [
+          {
+            specifications: false,
+            visitForm: false,
+            evaluationForm: false,
+            webSurvey: false,
+            reportSent: false,
+            oralPresentation: false,
+            visitPlanned: false,
+            visitDone: false,
+            technicalGrade: 0,
+            communicationGrade: 0,
+            mission: '',
+            startingDate: '',
+            endingDate: '',
+            companyName: '',
+            companyTutorName: '',
+            companyAddress: '',
+            comment: '',
+          }]}
+    ]);
+  };
 
   return (
     <Flex
@@ -275,7 +312,7 @@ export const InternsTable = () => {
             direction={'row'}
             spacing={'40'}
           >
-            <Button>Add</Button>
+            <Button onClick={handleAddRow}>Add</Button>
             <Button onClick={updateStudents}>Update</Button>
           </Stack>
         </Center>

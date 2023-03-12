@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Card, CardHeader, Divider, Heading, Text } from "@chakra-ui/react";
+import { Box, Card, CardHeader, Divider, Heading, Text, Input } from "@chakra-ui/react";
+import { Student } from "../../types/Student";
 
-export const InternshipCard = () => {
+export const InternshipCard = (props: { student: Student | null }) => {
   return (
     <Box h={'430px'} w={'1400px'} paddingTop={4}>
       <Card>
@@ -18,7 +19,7 @@ export const InternshipCard = () => {
         >
           <Text fontSize='md' p={4} as={'b'} width={'30%'}>Description: </Text>
           <Box bg={'whitesmoke'} maxHeight={'300px'} w={'800px'} wordBreak={'break-word'}>
-            <Text fontSize={'md'} >Lorem industry since the 1500s, when Lorem industry since the 1500s, when Lorem industry since the 1500s, when Lorem industry since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ty</Text>
+            <Text fontSize={'md'} >{props.student?.studentInternship[0].mission}</Text>
           </Box>
         </Box>
         <Divider />
@@ -29,7 +30,7 @@ export const InternshipCard = () => {
         >
           <Text fontSize='md' p={4} as={'b'} width={'30%'}>Comments: </Text>
           <Box bg={'whitesmoke'} maxHeight={'300px'} w={'800px'} wordBreak={'break-word'}>
-            <Text fontSize={'md'} >Lorem industry since the 1500s, when Lorem industry since the 1500s, when Lorem industry since the 1500s, when Lorem industry since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ty</Text>
+            <Text fontSize={'md'} >{props.student?.studentInternship[0].comment}</Text>
           </Box>
         </Box>
         <Divider/>
@@ -40,7 +41,7 @@ export const InternshipCard = () => {
         >
           <Text fontSize='md' p={4} as={'b'} width={'30%'}>Address: </Text>
           <Box bg={'whitesmoke'} maxHeight={'300px'} w={'800px'} wordBreak={'break-word'}>
-            <Text fontSize={'md'} >Lorem industry since the 1500s, when Lorem industry since the 1500s, when Lorem industry since the 1500s, when Lorem industry since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ty</Text>
+            <Text fontSize={'md'} >{props.student?.studentInternship[0].companyAddress}</Text>
           </Box>
         </Box>
       </Card>

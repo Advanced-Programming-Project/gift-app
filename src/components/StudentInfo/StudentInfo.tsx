@@ -11,13 +11,20 @@ export const StudentInfo = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/students/${id}`)
+    fetch(`${process.env.REACT_APP_API_URL}/students/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    })
       .then(async (res) => {
-        setStudent(await res.json())
-      }
-    )
+          setStudent(await res.json())
+        }
+      )
   }, []);
 
+  console.log(student);
   return (
     <Flex
       flexDirection="column"
@@ -44,8 +51,8 @@ export const StudentInfo = () => {
           justifyContent={'space-evenly'}
         >
           <StudentCard student={student}></StudentCard>
-          <CompanyCard/>
-          <InternshipCard></InternshipCard>
+          <CompanyCard student={student}/>
+          <InternshipCard student={student}></InternshipCard>
         </Flex>
       </Stack>
     </Flex>
