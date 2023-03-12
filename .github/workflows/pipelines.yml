@@ -19,6 +19,5 @@ jobs:
             rm -rf gift-app
             git clone git@github.com:Advanced-Programming-Project/gift-app.git
             cd gift-app
-            mkdir dist
             git checkout action-deploy
             docker compose -f docker-compose.ci.yml up -d --build

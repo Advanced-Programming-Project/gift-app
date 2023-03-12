@@ -1,26 +1,27 @@
-FROM node:latest AS builder
+FROM node:latest AS build
 
 WORKDIR /app
 
-COPY package.json package.json
+ENV PATH /app/node_modules/.bin:$PATH
 
-RUN npm install
+COPY package.json ./
 
-COPY . .
+COPY package-lock.json ./
+
+RUN npm ci --silent
+
+RUN npm install react-scripts@3.4.1 -g --silent
+
+COPY . ./
 
 RUN npm run build
 
-FROM nginx:alpine
+FROM nginx:stable-alpine
 
-WORKDIR /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html
 
-RUN rm -rf *
-
-COPY --from=builder /app/dist .
-
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/nginx.conf /etc/nginx/conf.d
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
