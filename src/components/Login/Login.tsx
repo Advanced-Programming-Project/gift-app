@@ -11,26 +11,31 @@ import {
   Box,
   FormControl,
   InputRightElement,
-  Image,
+  Image, Alert, AlertIcon, AlertTitle, AlertDescription,
 } from '@chakra-ui/react';
 import { FaUserAlt, FaLock } from 'react-icons/fa';
+import {useNavigate} from "react-router-dom";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
 export const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   const handleShowClick = () => setShowPassword(!showPassword);
 
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
+    setEmail(event.target.value);
+    setError(false)
   };
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
+    setError(false)
   };
 
   return (
@@ -53,7 +58,14 @@ export const Login = () => {
           alt={'Logo Efrei'}
         />
         <Box minW={{ base: '90%', md: '468px' }}>
-          <form>
+          <form onSubmit={(event) => {
+            event.preventDefault()
+            if(password == "1234" && email == "admin@efrei.net"){
+              navigate("/students");
+            }else{
+              setError(true)
+            }
+          }}>
             <Stack
               spacing={4}
               p="1rem"
@@ -69,7 +81,7 @@ export const Login = () => {
                   <Input
                     type={'email'}
                     placeholder={'Email'}
-                    value={username}
+                    value={email}
                     onChange={handleUsernameChange}
                   />
                 </InputGroup>
@@ -92,6 +104,13 @@ export const Login = () => {
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
+              { error && (
+                <Alert status='error'>
+                  <AlertIcon />
+                  <AlertTitle>Error !</AlertTitle>
+                  <AlertDescription>Wrong username or password.</AlertDescription>
+                </Alert>
+              )}
               <Button
                 borderRadius={0}
                 type="submit"
