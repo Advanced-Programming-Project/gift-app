@@ -46,18 +46,18 @@ export const InternsTable = () => {
     () => [
       {
         header: 'Group',
-        name: 'group',
+        name: 'promotion',
         draggable: false,
         width: 100,
       },
       {
         header: 'Last Name',
-        name: 'lastName',
+        name: 'lastname',
         draggable: false,
       },
       {
         header: 'First Name',
-        name: 'firstName',
+        name: 'firstname',
         draggable: false,
       },
       {
@@ -177,7 +177,7 @@ export const InternsTable = () => {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/tutors/students/1`).then(
       async (res) => {
-        setDataSource(await res.json() as Student[])
+        setDataSource([...initialData, ...(await res.json() as Student[])])
       }
     );
 

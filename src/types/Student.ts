@@ -1,8 +1,8 @@
 export type Student = {
   id: string,
-  group: string,
-  lastName: string,
-  firstName: string,
+  promotion: string,
+  lastname: string,
+  firstname: string,
   specifications: boolean,
   visitForm: boolean,
   evaluationForm: boolean,
