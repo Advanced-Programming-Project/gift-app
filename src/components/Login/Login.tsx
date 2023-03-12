@@ -42,11 +42,24 @@ export const Login = () => {
       justifyContent="center"
       alignItems="center"
     >
-      <Stack flexDir="column" mb="2" justifyContent="center" alignItems="center">
-        <Image src={process.env.PUBLIC_URL + 'efrei-logo.svg'} alt={'Logo Efrei'} />
+      <Stack
+        flexDir="column"
+        mb="2"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Image
+          src={process.env.PUBLIC_URL + 'efrei-logo.svg'}
+          alt={'Logo Efrei'}
+        />
         <Box minW={{ base: '90%', md: '468px' }}>
           <form>
-            <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md">
+            <Stack
+              spacing={4}
+              p="1rem"
+              backgroundColor="whiteAlpha.900"
+              boxShadow="md"
+            >
               <Heading color={'blue.500'}>Authentication</Heading>
               <FormControl>
                 <InputGroup>
