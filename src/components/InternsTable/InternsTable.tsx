@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, {SetStateAction, useCallback, useEffect, useState} from "react";
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
 import {
@@ -9,16 +9,17 @@ import {
   Stack,
   Button,
 } from "@chakra-ui/react";
-import { CheckCircleIcon } from '@chakra-ui/icons';
-import { data as initialData } from "../../examples/data";
-import { TypeEditInfo } from "@inovua/reactdatagrid-community/types";
+import {CheckCircleIcon} from '@chakra-ui/icons';
+import {data as initialData} from "../../examples/data";
+import {TypeEditInfo} from "@inovua/reactdatagrid-community/types";
+import {Student} from "../../types/Student";
 
 const boolRender = {
-  render: (edit: TypeEditInfo) =>{
+  render: (edit: TypeEditInfo) => {
     return edit.value ? (
-      <CheckCircleIcon id={'cell'} color={'green'} />
+      <CheckCircleIcon id={'cell'} color={'green'}/>
     ) : (
-      <CheckCircleIcon id={'cell'} color={'red'} />
+      <CheckCircleIcon id={'cell'} color={'red'}/>
     )
   },
   renderEditor: (editorProps: any) => {
@@ -31,9 +32,9 @@ const boolRender = {
         onBlur={editorProps.onComplete}
       >
         {editorProps.value ? (
-          <CheckCircleIcon id={'cell'} color={'green'} />
+          <CheckCircleIcon id={'cell'} color={'green'}/>
         ) : (
-          <CheckCircleIcon id={'cell'} color={'red'} />
+          <CheckCircleIcon id={'cell'} color={'red'}/>
         )}
       </div>
     );
@@ -168,10 +169,19 @@ export const InternsTable = () => {
 
   const [dataSource, setDataSource] = useState(initialData)
 
-  const onEditComplete = useCallback(({ value, columnId, rowIndex }: TypeEditInfo) => {
+  const onEditComplete = useCallback(({value, columnId, rowIndex}: TypeEditInfo) => {
     const data = [...dataSource];
     setDataSource(data);
   }, [dataSource])
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/tutors/students/1`).then(
+      async (res) => {
+        setDataSource(await res.json() as Student[])
+      }
+    );
+
+  }, [])
 
   return (
     <Flex
@@ -210,7 +220,6 @@ export const InternsTable = () => {
             direction={'row'}
             spacing={'40'}
           >
-            <Button>Add</Button>
             <Button>Add</Button>
           </Stack>
         </Center>
