@@ -1,4 +1,6 @@
-export const data = [
+import { Student } from "../types/Student";
+
+export const data: Array<Student> = [
   {
     id: '1',
     group: 'M2',
@@ -17,7 +19,7 @@ export const data = [
     company: 'EFREI',
     tutor: 'Jacques Augustin',
     address: '32 Avenue de la Republique',
-    technicalGrade: '12',
-    communicationGrade: '13',
+    technicalGrade: 12,
+    communicationGrade: 13,
   },
 ];

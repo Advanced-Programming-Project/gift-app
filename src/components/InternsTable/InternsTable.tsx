@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
-import { Flex } from '@chakra-ui/react';
+import { Box, Center, Flex } from "@chakra-ui/react";
 import { CheckCircleIcon } from '@chakra-ui/icons';
-import { data } from "../../examples/data";
+import { data as initialData } from "../../examples/data";
+import { TypeEditInfo } from "@inovua/reactdatagrid-community/types";
+import { Student } from "../../types/Student";
 
 const boolRender = {
   render: (value: boolean) =>
@@ -155,21 +157,28 @@ export const InternsTable = () => {
     []
   );
 
-  const gridStyle = {};
+  const gridStyle = {maxWidth: 1000};
 
-  const [dataSource, setDataSource] = useState(data)
+  const [dataSource, setDataSource] = useState(initialData)
 
+  const onEditComplete = useCallback(({ value, columnId, rowIndex }: TypeEditInfo) => {
+    const data = [...dataSource];
+    setDataSource(data);
+  }, [dataSource])
 
   return (
-    <Flex>
-      <ReactDataGrid
-        idProperty="id"
-        columns={columns}
-        groups={groups}
-        dataSource={dataSource}
-        style={gridStyle}
-        editable={true}
-      />{' '}
-    </Flex>
+    <Box>
+      <Center>
+        <ReactDataGrid
+          idProperty="id"
+          columns={columns}
+          groups={groups}
+          dataSource={dataSource}
+          style={gridStyle}
+          editable={true}
+          onEditComplete={onEditComplete}
+        />{' '}
+      </Center>
+    </Box>
   );
 };
