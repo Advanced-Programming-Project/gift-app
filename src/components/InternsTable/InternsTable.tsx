@@ -1,19 +1,26 @@
 import React, { useCallback, useState } from "react";
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
-import { Box, Center, Flex } from "@chakra-ui/react";
+import {
+  Center,
+  Flex,
+  Heading,
+  Image,
+  Stack,
+  Button,
+} from "@chakra-ui/react";
 import { CheckCircleIcon } from '@chakra-ui/icons';
 import { data as initialData } from "../../examples/data";
 import { TypeEditInfo } from "@inovua/reactdatagrid-community/types";
-import { Student } from "../../types/Student";
 
 const boolRender = {
-  render: (value: boolean) =>
-    value ? (
-      <CheckCircleIcon color={'green'} />
+  render: (edit: TypeEditInfo) =>{
+    return edit.value ? (
+      <CheckCircleIcon id={'cell'} color={'green'} />
     ) : (
-      <CheckCircleIcon color={'red'} />
-    ),
+      <CheckCircleIcon id={'cell'} color={'red'} />
+    )
+  },
   renderEditor: (editorProps: any) => {
     return (
       <div
@@ -24,9 +31,9 @@ const boolRender = {
         onBlur={editorProps.onComplete}
       >
         {editorProps.value ? (
-          <CheckCircleIcon color={'green'} />
+          <CheckCircleIcon id={'cell'} color={'green'} />
         ) : (
-          <CheckCircleIcon color={'red'} />
+          <CheckCircleIcon id={'cell'} color={'red'} />
         )}
       </div>
     );
@@ -157,7 +164,7 @@ export const InternsTable = () => {
     []
   );
 
-  const gridStyle = {maxWidth: 1000};
+  const gridStyle = {maxWidth: 1400, minHeight: 500};
 
   const [dataSource, setDataSource] = useState(initialData)
 
@@ -167,18 +174,47 @@ export const InternsTable = () => {
   }, [dataSource])
 
   return (
-    <Box>
-      <Center>
-        <ReactDataGrid
-          idProperty="id"
-          columns={columns}
-          groups={groups}
-          dataSource={dataSource}
-          style={gridStyle}
-          editable={true}
-          onEditComplete={onEditComplete}
-        />{' '}
-      </Center>
-    </Box>
+    <Flex
+      flexDirection="column"
+      width="100wh"
+      alignItems={'center'}
+      justifyContent="center"
+    >
+      <Image
+        src={process.env.PUBLIC_URL + 'efrei-logo.svg'}
+        alt={'Logo Efrei'}
+        boxSize={'200px'}
+      />
+      <Stack
+        width={'100em'}
+        spacing={4}
+        p="1rem"
+        backgroundColor="whiteAlpha.50"
+        boxShadow="md"
+      >
+        <Heading as='h2' size={'lg'}>Welcome back Tutor</Heading>
+        <Center>
+          <ReactDataGrid
+            idProperty="id"
+            columns={columns}
+            groups={groups}
+            dataSource={dataSource}
+            style={gridStyle}
+            editable={true}
+            onEditComplete={onEditComplete}
+          />{' '}
+        </Center>
+        <Center>
+          <Stack
+            alignItems={'center'}
+            direction={'row'}
+            spacing={'40'}
+          >
+            <Button>Add</Button>
+            <Button>Add</Button>
+          </Stack>
+        </Center>
+      </Stack>
+    </Flex>
   );
 };
