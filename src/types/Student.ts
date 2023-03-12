@@ -1,21 +1,12 @@
+import {StudentInternship} from "./StudentInternship";
+
 export type Student = {
-  id: string,
+  id: number,
   promotion: string,
   lastname: string,
   firstname: string,
-  specifications: boolean,
-  visitForm: boolean,
-  evaluationForm: boolean,
-  webSurvey: boolean,
-  reportSent: boolean,
-  oralPresentation: boolean,
-  visitPlanned: boolean,
-  visitDone: boolean,
-  startDate: number,
-  endDate: number,
-  company: string,
-  tutor: string,
-  address: string,
-  technicalGrade: number,
-  communicationGrade: number,
+  email: string,
+  studentInternship: StudentInternship[],
+
+  [key: string]: string | number | StudentInternship[],
 };

@@ -3,7 +3,7 @@
   "name": "Gift",
   "icons": [
     {
-      "src": "efrei-logo.png",
+      "src": "efrei-logo.svg",
       "sizes": "570x570",
       "type": "image/png"
     }

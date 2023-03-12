@@ -7,8 +7,6 @@ import React from 'react';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
-console.log(process.env)
-
 root.render(
   <StrictMode>
     <ChakraProvider>
