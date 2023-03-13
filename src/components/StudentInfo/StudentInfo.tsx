@@ -15,7 +15,7 @@ export const StudentInfo = ({}) => {
       justifyContent="center"
     >
       <Image
-        src={process.env.PUBLIC_URL + 'efrei-logo.svg'}
+        src={'%PUBLIC_URL%/efrei-logo.svg'}
         alt={'Logo Efrei'}
         boxSize={'200px'}
       />
