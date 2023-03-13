@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Card, CardBody, CardHeader, Heading, Text, Image, Center, Divider, Stack } from "@chakra-ui/react";
+import { Box, Card, CardBody, CardHeader, Heading, Text, Divider, Stack } from "@chakra-ui/react";
 
 export const CompanyCard = () => {
   return (

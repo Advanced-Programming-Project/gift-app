@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Card, CardBody, CardHeader, Heading, Text, Image, Center, Divider, Stack } from "@chakra-ui/react";
+import {Student} from "../../types/Student";
 
-export const StudentCard = () => {
+export const StudentCard = (props: { student: Student | null }) => {
   return (
     <Box w={'600px'} h={'430px'}>
       <Card>
@@ -26,28 +27,28 @@ export const StudentCard = () => {
               flexDirection={'row'}
             >
               <Text fontSize='md' as={'b'} width={'50%'}>Student ID: </Text>
-              <Text fontSize={'md'}>1</Text>
+              <Text fontSize={'md'}>{props.student?.id}</Text>
             </Box>
             <Box
               display={'flex'}
               flexDirection={'row'}
             >
               <Text fontSize='md' as={'b'} width={'50%'}>Last Name: </Text>
-              <Text fontSize={'md'}>Test</Text>
+              <Text fontSize={'md'}>{props.student?.lastname}</Text>
             </Box>
             <Box
               display={'flex'}
               flexDirection={'row'}
             >
               <Text fontSize='md' as={'b'} width={'50%'}>First Name: </Text>
-              <Text fontSize={'md'}>Test</Text>
+              <Text fontSize={'md'}>{props.student?.firstname}</Text>
             </Box>
             <Box
               display={'flex'}
               flexDirection={'row'}
             >
               <Text fontSize='md' as={'b'} width={'50%'}>Group: </Text>
-              <Text fontSize={'md'}>M2</Text>
+              <Text fontSize={'md'}>{props.student?.promotion}</Text>
             </Box>
           </Stack>
         </CardBody>

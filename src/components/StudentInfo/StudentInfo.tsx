@@ -1,12 +1,24 @@
-import React from "react";
-import { Flex, Image, Stack } from "@chakra-ui/react";
-import { StudentCard } from "./StudentCard";
-import { CompanyCard } from "./CompanyCard";
+import React, {useEffect, useState} from "react";
+import {Flex, Image, Stack} from "@chakra-ui/react";
+import {StudentCard} from "./StudentCard";
+import {CompanyCard} from "./CompanyCard";
+import {Student} from "../../types/Student";
+import {useParams} from "react-router-dom";
 
 export type TypeStudentInfoProps = {
   studentId: number,
 }
-export const StudentInfo = ({}) => {
+export const StudentInfo = () => {
+  const [student, setStudent] = useState(null);
+  const {id} = useParams();
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/tutors/students/${id}`).then(async (res) => {
+        setStudent(await res.json())
+      }
+    )
+  }, []);
+
   return (
     <Flex
       flexDirection="column"
@@ -15,7 +27,7 @@ export const StudentInfo = ({}) => {
       justifyContent="center"
     >
       <Image
-        src={'%PUBLIC_URL%/efrei-logo.svg'}
+        src={'/efrei-logo.svg'}
         alt={'Logo Efrei'}
         boxSize={'200px'}
       />
@@ -30,10 +42,10 @@ export const StudentInfo = ({}) => {
           flexDirection={'row'}
           justifyContent={'space-evenly'}
         >
-          <StudentCard></StudentCard>
+          <StudentCard student={student}></StudentCard>
           <CompanyCard/>
         </Flex>
       </Stack>
-  </Flex>
+    </Flex>
   );
 };
