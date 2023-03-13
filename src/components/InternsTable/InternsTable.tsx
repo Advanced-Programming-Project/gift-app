@@ -1,4 +1,4 @@
-import React, {SetStateAction, useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
 import {
@@ -21,24 +21,7 @@ const boolRender = {
     ) : (
       <CheckCircleIcon id={'cell'} color={'red'}/>
     )
-  },
-  renderEditor: (editorProps: any) => {
-    return (
-      <div
-        tabIndex={0}
-        onClick={() => {
-          editorProps.onChange(!editorProps.value);
-        }}
-        onBlur={editorProps.onComplete}
-      >
-        {editorProps.value ? (
-          <CheckCircleIcon id={'cell'} color={'green'}/>
-        ) : (
-          <CheckCircleIcon id={'cell'} color={'red'}/>
-        )}
-      </div>
-    );
-  },
+  }
 };
 
 export const InternsTable = () => {
@@ -169,7 +152,7 @@ export const InternsTable = () => {
 
   const [dataSource, setDataSource] = useState(initialData)
 
-  const onEditComplete = useCallback(({value, columnId, rowIndex}: TypeEditInfo) => {
+  const onEditComplete = useCallback(() => {
     const data = [...dataSource];
     setDataSource(data);
   }, [dataSource])
