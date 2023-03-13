@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, {ChangeEvent, FormEvent, useState} from 'react';
 import {
   Flex,
   Heading,
@@ -13,7 +13,7 @@ import {
   InputRightElement,
   Image, Alert, AlertIcon, AlertTitle, AlertDescription,
 } from '@chakra-ui/react';
-import { FaUserAlt, FaLock } from 'react-icons/fa';
+import {FaUserAlt, FaLock} from 'react-icons/fa';
 import {useNavigate} from "react-router-dom";
 
 const CFaUserAlt = chakra(FaUserAlt);
@@ -38,6 +38,26 @@ export const Login = () => {
     setError(false)
   };
 
+  const checkLogin = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    });
+
+    if (response.ok) {
+      navigate("/students");
+    } else {
+      setError(true)
+    }
+  };
+
   return (
     <Flex
       flexDirection="column"
@@ -57,15 +77,8 @@ export const Login = () => {
           src={process.env.PUBLIC_URL + 'efrei-logo.svg'}
           alt={'Logo Efrei'}
         />
-        <Box minW={{ base: '90%', md: '468px' }}>
-          <form onSubmit={(event) => {
-            event.preventDefault()
-            if(password == "1234" && email == "admin@efrei.net"){
-              navigate("/students");
-            }else{
-              setError(true)
-            }
-          }}>
+        <Box minW={{base: '90%', md: '468px'}}>
+          <form onSubmit={checkLogin}>
             <Stack
               spacing={4}
               p="1rem"
@@ -76,7 +89,7 @@ export const Login = () => {
               <FormControl>
                 <InputGroup>
                   <InputLeftElement pointerEvents={'none'}>
-                    <CFaUserAlt color={'gray.300'} />
+                    <CFaUserAlt color={'gray.300'}/>
                   </InputLeftElement>
                   <Input
                     type={'email'}
@@ -89,7 +102,7 @@ export const Login = () => {
               <FormControl>
                 <InputGroup>
                   <InputLeftElement pointerEvents={'none'} color={'gray.300'}>
-                    <CFaLock color={'gray.300'} />
+                    <CFaLock color={'gray.300'}/>
                   </InputLeftElement>
                   <Input
                     type={showPassword ? 'text' : 'password'}
@@ -104,9 +117,9 @@ export const Login = () => {
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
-              { error && (
+              {error && (
                 <Alert status='error'>
-                  <AlertIcon />
+                  <AlertIcon/>
                   <AlertTitle>Error !</AlertTitle>
                   <AlertDescription>Wrong username or password.</AlertDescription>
                 </Alert>
