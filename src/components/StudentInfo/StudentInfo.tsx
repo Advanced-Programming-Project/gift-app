@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Flex, Image, Stack} from "@chakra-ui/react";
 import {StudentCard} from "./StudentCard";
 import {CompanyCard} from "./CompanyCard";
+import { InternshipCard } from "./InternshipCard";
 import {Student} from "../../types/Student";
 import {useParams} from "react-router-dom";
 
@@ -40,10 +41,12 @@ export const StudentInfo = () => {
       >
         <Flex
           flexDirection={'row'}
+          wrap={'wrap'}
           justifyContent={'space-evenly'}
         >
           <StudentCard student={student}></StudentCard>
           <CompanyCard/>
+          <InternshipCard></InternshipCard>
         </Flex>
       </Stack>
     </Flex>
