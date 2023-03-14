@@ -11,22 +11,49 @@ import {
 } from "@chakra-ui/react";
 import {CheckCircleIcon} from '@chakra-ui/icons';
 import {data as initialData} from "../../examples/data";
-import {TypeEditInfo} from "@inovua/reactdatagrid-community/types";
+import { TypeEditInfo } from "@inovua/reactdatagrid-community/types";
 import {Student} from "../../types/Student";
+import {useNavigate} from "react-router-dom";
 
-const boolRender = {
-  render: (edit: TypeEditInfo) => {
-    return edit.value ? (
-      <CheckCircleIcon id={'cell'} color={'green'}/>
-    ) : (
-      <CheckCircleIcon id={'cell'} color={'red'}/>
-    )
-  }
-};
 
 export const InternsTable = () => {
+  const navigate = useNavigate();
+
+  const showStudentInfo = (id: number) => {
+    if (id) {
+      navigate(`/students/${id}`)
+    }
+  }
+
+  const boolRender = {
+    render: (edit: TypeEditInfo) => {
+      return edit.value ? (
+        <CheckCircleIcon id={'cell'} color={'green'}/>
+      ) : (
+        <CheckCircleIcon id={'cell'} color={'red'}/>
+      )
+    }
+  };
+
+  const showStudentButtonRender = {
+    render: (event: TypeEditInfo) => {
+      return (
+        <Center >
+          <Button size={'xs'} colorScheme={'blue'} onClick={() => showStudentInfo(event.value)} />
+        </Center>
+      );
+    }
+  }
+
   const columns = React.useMemo(
     () => [
+      {
+        header: 'Show Student',
+        name:'id',
+        draggable: false,
+        editable: false,
+        ...showStudentButtonRender,
+      },
       {
         header: 'Group',
         name: 'promotion',
@@ -174,7 +201,7 @@ export const InternsTable = () => {
       justifyContent="center"
     >
       <Image
-        src={process.env.PUBLIC_URL + 'efrei-logo.svg'}
+        src={'./efrei-logo.svg'}
         alt={'Logo Efrei'}
         boxSize={'200px'}
       />

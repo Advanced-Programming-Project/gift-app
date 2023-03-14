@@ -3,12 +3,8 @@ import {Flex, Image, Stack} from "@chakra-ui/react";
 import {StudentCard} from "./StudentCard";
 import {CompanyCard} from "./CompanyCard";
 import { InternshipCard } from "./InternshipCard";
-import {Student} from "../../types/Student";
 import {useParams} from "react-router-dom";
 
-export type TypeStudentInfoProps = {
-  studentId: number,
-}
 export const StudentInfo = () => {
   const [student, setStudent] = useState(null);
   const {id} = useParams();
