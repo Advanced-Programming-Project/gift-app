@@ -7,11 +7,11 @@ import {
   Heading,
   Image,
   Stack,
-  Button,
+  Button, IconButton,
 } from "@chakra-ui/react";
-import {CheckCircleIcon} from '@chakra-ui/icons';
+import {CheckCircleIcon, SearchIcon} from '@chakra-ui/icons';
 import {data as initialData} from "../../examples/data";
-import { TypeEditInfo } from "@inovua/reactdatagrid-community/types";
+import {TypeEditInfo} from "@inovua/reactdatagrid-community/types";
 import {Student} from "../../types/Student";
 import {useNavigate} from "react-router-dom";
 
@@ -38,8 +38,9 @@ export const InternsTable = () => {
   const showStudentButtonRender = {
     render: (event: TypeEditInfo) => {
       return (
-        <Center >
-          <Button size={'xs'} colorScheme={'blue'} onClick={() => showStudentInfo(event.value)} />
+        <Center>
+          <IconButton size={'xs'} colorScheme={'blue'} onClick={() => showStudentInfo(event.value)}
+                      icon={<SearchIcon/>} aria-label={"Show student infos"}/>
         </Center>
       );
     }
@@ -49,7 +50,7 @@ export const InternsTable = () => {
     () => [
       {
         header: 'Show Student',
-        name:'id',
+        name: 'id',
         draggable: false,
         editable: false,
         ...showStudentButtonRender,
