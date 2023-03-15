@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import {FaUserAlt, FaLock} from 'react-icons/fa';
 import {useNavigate} from "react-router-dom";
+import {AuthenticationResponse} from "../../types/AuthenticationResponse";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -52,7 +53,11 @@ export const Login = () => {
     });
 
     if (response.ok) {
-      navigate("/students");
+      await (async () => {
+        const authResponse: AuthenticationResponse = await response.json();
+        localStorage.setItem('token', authResponse.token);
+        navigate("/students");
+      })();
     } else {
       setError(true)
     }

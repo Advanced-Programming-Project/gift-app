@@ -186,11 +186,38 @@ export const InternsTable = () => {
   }, [dataSource])
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/tutors/students/1`).then(
-      async (res) => {
+    (async () => {
+      try{
+        const responseGet = await fetch(`${process.env.REACT_APP_API_URL}/students`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }});
+        let students: Student[] = await responseGet.json();
+        if(!students.length) {
+          const responsePost = await fetch(`${process.env.REACT_APP_API_URL}/students/all`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(initialData)
+          });
+          students = await responsePost.json();
+          console.dir(students);
+        }
+        setDataSource(students);
+      }catch (e){
+        console.dir(e);
+      }
+    })();
+    /*
+    fetch(`${process.env.REACT_APP_API_URL}/students`)
+      .then(async (res) => {
         setDataSource([...initialData, ...(await res.json() as Student[])])
       }
-    );
+    );*/
 
   }, [])
 

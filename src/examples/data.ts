@@ -1,5 +1,5 @@
 import { Student } from "../types/Student";
-
+/*
 export const data: Array<Student> = [
   {
     id: '1',
@@ -106,4 +106,55 @@ export const data: Array<Student> = [
     technicalGrade: 12,
     communicationGrade: 13,
   },
+];
+*/
+export const data: Student[] = [
+  {
+    "id": 1,
+    "firstname": "pierre",
+    "lastname": "hevert",
+    "email": "pierre.hevert@gmail.com",
+    "promotion": "M2",
+    "studentInternship": [
+      {
+        "id": 1,
+        "mission": "servir café",
+        "companyName": "accent",
+        "companyTutorName": "bernard",
+        "startingDate": "2020-02-02",
+        "endingDate": "2020-05-05",
+        "comment": "Stage M2",
+        "companyAddress": "56 rue du blabla"
+      },
+      {
+        "id": 2,
+        "mission": "Conception d'une platform",
+        "companyName": "SOS",
+        "companyTutorName": "henry",
+        "startingDate": "2021-02-02",
+        "endingDate": "2021-05-05",
+        "comment": "Stage M2",
+        "companyAddress": "56 rue du blabla"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "firstname": "pande",
+    "lastname": "renard",
+    "email": "pande.renard@gmail.com",
+    "promotion": "M2",
+    "studentInternship": [
+      {
+        "id": 1,
+        "mission": "servir café",
+        "companyName": "accent",
+        "companyTutorName": "bernard",
+        "startingDate": "2020-02-02",
+        "endingDate": "2020-05-05",
+        "comment": "Stage M2",
+        "companyAddress": "56 rue du blabla"
+      }
+    ]
+  }
 ];

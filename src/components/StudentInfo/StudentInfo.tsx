@@ -10,7 +10,8 @@ export const StudentInfo = () => {
   const {id} = useParams();
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/tutors/students/${id}`).then(async (res) => {
+    fetch(`${process.env.REACT_APP_API_URL}/students/${id}`)
+      .then(async (res) => {
         setStudent(await res.json())
       }
     )
