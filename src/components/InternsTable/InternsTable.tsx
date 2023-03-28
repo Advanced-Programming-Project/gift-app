@@ -1,4 +1,4 @@
-import React, {SetStateAction, useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
 import {
@@ -7,43 +7,65 @@ import {
   Heading,
   Image,
   Stack,
-  Button,
+  Button, IconButton,
 } from "@chakra-ui/react";
-import {CheckCircleIcon} from '@chakra-ui/icons';
+import {CheckCircleIcon, SearchIcon} from '@chakra-ui/icons';
 import {data as initialData} from "../../examples/data";
 import {TypeEditInfo} from "@inovua/reactdatagrid-community/types";
 import {Student} from "../../types/Student";
+import {useNavigate} from "react-router-dom";
+import {StudentInternship} from "../../types/StudentInternship";
 
-const boolRender = {
-  render: (edit: TypeEditInfo) => {
-    return edit.value ? (
-      <CheckCircleIcon id={'cell'} color={'green'}/>
-    ) : (
-      <CheckCircleIcon id={'cell'} color={'red'}/>
-    )
-  },
-  renderEditor: (editorProps: any) => {
-    return (
-      <div
-        tabIndex={0}
-        onClick={() => {
-          editorProps.onChange(!editorProps.value);
-        }}
-        onBlur={editorProps.onComplete}
-      >
-        {editorProps.value ? (
-          <CheckCircleIcon id={'cell'} color={'green'}/>
-        ) : (
-          <CheckCircleIcon id={'cell'} color={'red'}/>
-        )}
-      </div>
-    );
-  },
-};
 
 export const InternsTable = () => {
+  const navigate = useNavigate();
+
+  const showStudentInfo = (id: number) => {
+    if (id) {
+      navigate(`/students/${id}`)
+    }
+  }
+
+  const boolRender = {
+    render: (edit: any) => {
+      return renderInternship(edit.data, edit.cellProps.name) ? (
+        <CheckCircleIcon id={'cell'} color={'green'}/>
+      ) : (
+        <CheckCircleIcon id={'cell'} color={'red'}/>
+      )
+    }
+  };
+
+  const showStudentButtonRender = {
+    render: (event: TypeEditInfo) => {
+      return (
+        <Center>
+          <IconButton size={'xs'} colorScheme={'blue'} onClick={() => showStudentInfo(event.value)}
+                      icon={<SearchIcon/>} aria-label={"Show student infos"}/>
+        </Center>
+      );
+    }
+  }
+
+  const renderInternship = (student: Student, field: string) => {
+    if (student.studentInternship[0]) {
+      const fieldName = field as keyof StudentInternship;
+
+      return (student.studentInternship[0] as StudentInternship)[fieldName]
+    } else {
+      return null
+    }
+  }
+
   const columns = React.useMemo(
     () => [
+      {
+        header: 'Show Student',
+        name: 'id',
+        draggable: false,
+        editable: false,
+        ...showStudentButtonRender,
+      },
       {
         header: 'Group',
         name: 'promotion',
@@ -64,88 +86,95 @@ export const InternsTable = () => {
         header: 'Specifications',
         name: 'specifications',
         draggable: false,
-        ...boolRender,
+        ...boolRender
       },
       {
         header: 'Visit Form',
         name: 'visitForm',
         draggable: false,
-        ...boolRender,
+        ...boolRender
       },
       {
         header: 'Evaluation Form',
         name: 'evaluationForm',
         draggable: false,
-        ...boolRender,
+        ...boolRender
       },
       {
         header: 'Web Survey',
         name: 'webSurvey',
         draggable: false,
-        ...boolRender,
+        ...boolRender
       },
       {
         header: 'Report sent',
         name: 'reportSent',
         draggable: false,
-        ...boolRender,
+        ...boolRender
       },
       {
         header: 'Oral Presentation',
         name: 'oralPresentation',
         draggable: false,
-        ...boolRender,
+        ...boolRender
       },
       {
         group: 'visit',
         header: 'Planned',
         draggable: false,
         name: 'visitPlanned',
-        ...boolRender,
+        ...boolRender
       },
       {
         group: 'visit',
         header: 'Done',
         draggable: false,
         name: 'visitDone',
-        ...boolRender,
+        ...boolRender
       },
       {
         header: 'Start Date',
-        name: 'startDate',
+        name: 'startingDate',
         draggable: false,
+        render: (data: any) => renderInternship(data.data, data.cellProps.name)
       },
       {
         header: 'End Date',
-        name: 'endDate',
+        name: 'endingDate',
         draggable: false,
+        render: (data: any) => renderInternship(data.data, data.cellProps.name)
       },
       {
         header: 'Company',
-        name: 'company',
+        name: 'companyName',
         draggable: false,
+        render: (data: any) => renderInternship(data.data, data.cellProps.name)
       },
       {
         header: 'Tutor',
-        name: 'tutor',
+        name: 'companyTutorName',
         draggable: false,
+        render: (data: any) => renderInternship(data.data, data.cellProps.name)
       },
       {
         header: 'Address',
-        name: 'address',
+        name: 'companyAddress',
         draggable: false,
+        render: (data: any) => renderInternship(data.data, data.cellProps.name)
       },
       {
         group: 'grade',
         header: 'Technical',
         name: 'technicalGrade',
         draggable: false,
+        render: (data: any) => renderInternship(data.data, data.cellProps.name)
       },
       {
         group: 'grade',
         header: 'Communication',
         name: 'communicationGrade',
         draggable: false,
+        render: (data: any) => renderInternship(data.data, data.cellProps.name)
       },
     ],
     []
@@ -171,17 +200,43 @@ export const InternsTable = () => {
 
   const onEditComplete = useCallback(({value, columnId, rowIndex}: TypeEditInfo) => {
     const data = [...dataSource];
+
+    data[rowIndex][columnId] = value;
     setDataSource(data);
   }, [dataSource])
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/tutors/students/1`).then(
-      async (res) => {
-        setDataSource([...initialData, ...(await res.json() as Student[])])
+    (async () => {
+      try {
+        const responseGet = await fetch(`${process.env.REACT_APP_API_URL}/students`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        const students: Student[] = await responseGet.json();
+        setDataSource(students);
+      } catch (e) {
+        console.dir(e);
       }
-    );
-
+    })();
   }, [])
+
+  const updateStudents = async () => {
+    if (!dataSource.length) {
+      const responsePost = await fetch(`${process.env.REACT_APP_API_URL}/students/all`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(initialData)
+      });
+      const students = await responsePost.json();
+      console.dir(students);
+    }
+  }
 
   return (
     <Flex
@@ -191,7 +246,7 @@ export const InternsTable = () => {
       justifyContent="center"
     >
       <Image
-        src={process.env.PUBLIC_URL + 'efrei-logo.svg'}
+        src={'./efrei-logo.svg'}
         alt={'Logo Efrei'}
         boxSize={'200px'}
       />
@@ -221,6 +276,7 @@ export const InternsTable = () => {
             spacing={'40'}
           >
             <Button>Add</Button>
+            <Button onClick={updateStudents}>Update</Button>
           </Stack>
         </Center>
       </Stack>
